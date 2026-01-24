@@ -6,9 +6,32 @@
  * ============================================================ */
 void fcfs_schedule(Process p[], int n)
 {
-    (void)p;
-    (void)n;
-    /* TODO: Implement FCFS scheduling algorithm here */
+    int time = 0;
+
+    // Ordenar por arrival_time (FCFS real)
+    for (int i = 0; i < n - 1; i++) {
+        for (int j = 0; j < n - i - 1; j++) {
+            if (p[j].arrival_time > p[j + 1].arrival_time ||
+               (p[j].arrival_time == p[j + 1].arrival_time &&
+                p[j].id > p[j + 1].id)) {
+
+                Process temp = p[j];
+                p[j] = p[j + 1];
+                p[j + 1] = temp;
+            }
+        }
+    }
+
+    // Calcular tiempos
+    for (int i = 0; i < n; i++) {
+        if (time < p[i].arrival_time)
+            time = p[i].arrival_time;
+
+        p[i].waiting_time = time - p[i].arrival_time;
+        time += p[i].burst_time;
+        p[i].turnaround_time = time - p[i].arrival_time;
+        p[i].completed = 1;
+    }
 }
 
 /* ============================================================
@@ -25,33 +48,8 @@ int main(void)
     read_processes(p, n);
     init_processes(p, n);
 
-<<<<<<< HEAD
-    // TODO: Aquí va la lógica del scheduler
-    int time = 0;
-    // FCFS: ejecutar en orden de llegada
-    for (int i = 0; i < n; i++) {
-        if (time < p[i].arrival_time) {
-            // Si el CPU esta ocioso, avanzar hasta la llegada del proceso
-            time = p[i].arrival_time;
-        }
-
-        // Mostrar estado antes de ejecutar
-        printf("Tiempo %d: Ejecutando P%d (BT=%d)\n",
-               time, p[i].id, p[i].burst_time);
-
-        // Calcular tiempos
-        p[i].waiting_time = time - p[i].arrival_time;
-        time += p[i].burst_time;
-        p[i].turnaround_time = p[i].waiting_time + p[i].burst_time;
-        p[i].completed = 1;
-
-        // Mostrar estado después de ejecutar
-        printf("   -> P%d terminó en tiempo %d\n", p[i].id, time);
-    }
-=======
     fcfs_schedule(p, n);
 
->>>>>>> 412d236 (Merge branch 'feature/schedulers' into develop)
     print_results(p, n, "FCFS Scheduling");
     return 0;
 }

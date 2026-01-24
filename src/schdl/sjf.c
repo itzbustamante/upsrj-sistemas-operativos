@@ -32,7 +32,7 @@ void sjf_schedule(Process p[], int n)
             continue;
         }
 
-        // Calcular tiempos
+        // Calcular los tiempos
         p[idx].waiting_time = time - p[idx].arrival_time;
         time += p[idx].burst_time;
         p[idx].turnaround_time = time - p[idx].arrival_time;
