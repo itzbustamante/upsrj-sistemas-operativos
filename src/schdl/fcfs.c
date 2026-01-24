@@ -31,7 +31,7 @@ int main(void)
     // FCFS: ejecutar en orden de llegada
     for (int i = 0; i < n; i++) {
         if (time < p[i].arrival_time) {
-            // Si el CPU está ocioso, avanzar hasta la llegada del proceso
+            // Si el CPU esta ocioso, avanzar hasta la llegada del proceso
             time = p[i].arrival_time;
         }
 
